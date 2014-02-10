@@ -122,14 +122,19 @@ function cardnumarray() {
     return cardnums
 }
 
+var result = []
+
 function addEventListeners(cards) {
-    if (cards == undefined)
-        cardnums = cardnumarray()
-    var result = []
-    for (var i=0; i<cardnums.length; i++) {
-        var num = cardnums[i]
+    if (cards == undefined) 
+        cards = cardnumarray()
+
+    else
+        console.log(cards)
+    for (var i=0; i<cards.length; i++) {
+        var num = Number(cards[i]);
+        console.log(num)
         $(num).addEventListener('click',function(click){
-            cardnum = Number(click.target.id)
+            var cardnum = Number(click.target.id)
             if (cardnum != result[0] && cardnum != result[1])
                 result.push(convertCard(cardnum));
             if (!click.target.style.borderColor || click.target.style.borderColor == 'black')
@@ -137,25 +142,38 @@ function addEventListeners(cards) {
             else
                 click.target.style.borderColor = 'black'
             if (result.length == 3) {
-                console.log(result)
-                //removeDeal(result)
-                isitaset = isset(result)
-                console.log(isitaset);
-                console.log(result)
-                //for all img in doc.body: set border = black
-                imgs = document.body.getElementsByTagName('IMG')
-                forEach(imgs,function(img){img.style.borderColor = 'black'})
-                if (!isitaset)   
-                    result = [];
-                else {
-                    console.log(result)
-                    removeDeal(result)
-                    result = []
-                }
-
+                threeClicks(result);
+                result = [];
             }
         });
     }
+}
+
+    
+
+
+
+function threeClicks(cardsClicked) {
+    if (cardsClicked.length == 3) {
+
+            // if (result.length == 3) {
+        console.log(cardsClicked)
+        //removeDeal(result)
+        isitaset = isset(cardsClicked)
+        console.log(isitaset);
+        //for all img in doc.body: set border = black
+        imgs = document.body.getElementsByTagName('IMG')
+        forEach(imgs,function(img){img.style.borderColor = 'black'})
+        if (!isitaset)   
+            cardsClicked = [];
+        else {
+            console.log(cardsClicked)
+            removeDeal(cardsClicked)
+            result = []
+        }
+
+    }
+}
 
     // console.log(result)
     // if (result.length == 3) {
@@ -163,7 +181,7 @@ function addEventListeners(cards) {
     //     result = []
     //     return setty
     // }
-}
+
 
 
 function convertCard(cardNum) {
@@ -187,7 +205,7 @@ function equalArray(arr1,arr2) {
 
 }
 function isset(cards) {
-    console.log(cards)
+    //console.log(cards)
     if (equalArray(cards[0], cards[1]))
         return false
     
@@ -201,11 +219,11 @@ function isset(cards) {
     for (var j=0; j<4; j++) {
         testarray = []
         forEach(cards, function(card) {testarray.push(card[j])})
-        console.log(testarray)
+        //console.log(testarray)
         if (reduce(function(a,b){return a + b},0,testarray)%3 == 0)
             ans +=1
     }
-    console.log(cards)
+    //console.log(cards)
     return ans == 4
     //return true
     
@@ -232,9 +250,13 @@ function convertCardBack(cardArray) {
 }
 
 function dealOne(parent) {
-    console.log(allCards)
+    //console.log(allCards)
     randNum = randomElement(allCards)
-    parent.appendChild(domCard(randNum))
+    newCard = domCard(randNum)
+    parent.appendChild(newCard)
+    console.log(newCard)
+    addEventListeners([(newCard.id)])
+
     //addEventListeners()
 }
 
@@ -246,7 +268,7 @@ function removeDeal(cards) {
         setcards.push(convertCardBack(cards[i]))
         //console.log('setcards array ', setcards)
     }
-    console.log(setcards)
+    //console.log(setcards)
     for (var j=0; j<3; j++) {
         var par = document.getElementById(setcards[j]).parentNode //WHAT THE FUCK???? WHY DOESN'T THIS WORK??
         //console.log(par)
