@@ -228,13 +228,13 @@ function removeDeal(cards) {
     console.log(setcards)
     for (j=0; j<3; j++)
         //console.log($(arr[j]))
-        var par = document.getElementById(setcards[j]).parentNode //WHAT THE FUCK???? WHY DOESN'T THIS WORK??
+        //var par = document.getElementById(setcards[j]).parentNode //WHAT THE FUCK???? WHY DOESN'T THIS WORK??
         //console.log(par)
         //console.log(j)
-        //console.log(arr[j])
-        //console.log($(arr[j]))
-        //par.removeChild(document.getElementById(arr[j]))
-        //dealOne($(arr[j]).parentNode)
+        //console.log(setcards[j])
+        //console.log($(setcards[j]))
+        //par.removeChild(document.getElementById(setcards[j]))
+        //dealOne($(setcards[j]).parentNode)
         $(setcards[j]).parentNode.removeChild($(setcards[j]))
         //removeElement($(arr[i]))   //why the fuck doesn't the loop work for dealone
         //dealOne(parent)
