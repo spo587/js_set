@@ -138,13 +138,13 @@ function addEventListeners() {
             if (result.length == 3) {
                 console.log(result)
                 //removeDeal(result)
-                //isitaset = isset(result)
-                //console.log(isitaset);
+                isitaset = isset(result)
+                console.log(isitaset);
                 console.log(result)
                 //for all img in doc.body: set border = black
                 imgs = document.body.getElementsByTagName('IMG')
                 forEach(imgs,function(img){img.style.borderColor = 'black'})
-                if (!isset(result))   
+                if (!isitaset)   
                     result = [];
                 else {
                     console.log(result)
@@ -197,7 +197,7 @@ function isset(cards) {
     // if (objectEquals(card1,card2))
     //     return false
     ans=0
-    for (j=0; j<4; j++) {
+    for (var j=0; j<4; j++) {
         testarray = []
         forEach(cards, function(card) {testarray.push(card[j])})
         console.log(testarray)
@@ -231,21 +231,20 @@ function convertCardBack(cardArray) {
 }
 
 function dealOne(parent) {
-    console.log(arr)
-    randNum = randomElement(arr)
+    console.log(allCards)
+    randNum = randomElement(allCards)
     parent.appendChild(domCard(randNum))
 }
 
 function removeDeal(cards) {
     console.log('cards  ', cards)
     setcards = []
-    for (i=0; i<3; i++)
+    for (var i=0; i<3; i++)
         //arr.push(cards[i]['att0']*1+cards[i]['att1']*3+cards[i]['att2']*9+cards[i]['att3']*27)
         setcards.push(convertCardBack(cards[i]))
         console.log('setcards array ', setcards)
     console.log(setcards)
-    for (j=0; j<3; j++)
-        //console.log($(arr[j]))
+    for (var j=0; j<3; j++)
         //var par = document.getElementById(setcards[j]).parentNode //WHAT THE FUCK???? WHY DOESN'T THIS WORK??
         //console.log(par)
         //console.log(j)
