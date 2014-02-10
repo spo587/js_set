@@ -114,17 +114,18 @@ function dealtwelve() {
 
 
 function cardnumarray() {
-    cardnums = []
-    elements = document.body.getElementsByTagName('IMG')
+    var cardnums = []
+    var elements = document.body.getElementsByTagName('IMG')
     for (var i=0; i<elements.length; i++)
         cardnums.push(elements[i].id)
     //  console.log(cardnums)
     return cardnums
 }
 
-function addEventListeners() {
-    cardnums = cardnumarray()
-    result = []
+function addEventListeners(cards) {
+    if (cards == undefined)
+        cardnums = cardnumarray()
+    var result = []
     for (var i=0; i<cardnums.length; i++) {
         var num = cardnums[i]
         $(num).addEventListener('click',function(click){
@@ -234,30 +235,31 @@ function dealOne(parent) {
     console.log(allCards)
     randNum = randomElement(allCards)
     parent.appendChild(domCard(randNum))
+    //addEventListeners()
 }
 
 function removeDeal(cards) {
-    console.log('cards  ', cards)
+    //console.log('cards  ', cards)
     setcards = []
-    for (var i=0; i<3; i++)
+    for (var i=0; i<3; i++) {
         //arr.push(cards[i]['att0']*1+cards[i]['att1']*3+cards[i]['att2']*9+cards[i]['att3']*27)
         setcards.push(convertCardBack(cards[i]))
-        console.log('setcards array ', setcards)
+        //console.log('setcards array ', setcards)
+    }
     console.log(setcards)
-    for (var j=0; j<3; j++)
-        //var par = document.getElementById(setcards[j]).parentNode //WHAT THE FUCK???? WHY DOESN'T THIS WORK??
+    for (var j=0; j<3; j++) {
+        var par = document.getElementById(setcards[j]).parentNode //WHAT THE FUCK???? WHY DOESN'T THIS WORK??
         //console.log(par)
         //console.log(j)
         //console.log(setcards[j])
-        console.log($(setcards[j]))
-        //par.removeChild(document.getElementById(setcards[j]))
+        par.removeChild(document.getElementById(setcards[j]))
         //dealOne($(setcards[j]).parentNode)
-        $(setcards[j]).remove()
+        //$(setcards[j]).remove()
         // $(setcards[j]).parentNode.removeChild($(setcards[j]))
         //removeElement($(setcards[i]))   //why the fuck doesn't the loop work for dealone
-        //dealOne(parent)
+        dealOne(par)
 
-        
+        }
         
 }
 
