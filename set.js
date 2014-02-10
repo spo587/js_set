@@ -136,16 +136,21 @@ function addEventListeners() {
             else
                 click.target.style.borderColor = 'black'
             if (result.length == 3) {
-                isitaset = isset(result)
-                console.log(isitaset);
+                console.log(result)
+                //removeDeal(result)
+                //isitaset = isset(result)
+                //console.log(isitaset);
+                console.log(result)
                 //for all img in doc.body: set border = black
                 imgs = document.body.getElementsByTagName('IMG')
                 forEach(imgs,function(img){img.style.borderColor = 'black'})
-                if (!isitaset)   
+                if (!isset(result))   
                     result = [];
-                else
+                else {
+                    console.log(result)
                     removeDeal(result)
                     result = []
+                }
 
             }
         });
@@ -171,13 +176,24 @@ function convertCard(cardNum) {
 
 
 
+function equalArray(arr1,arr2) {
+    res = 0
+    for (i=0; i<arr1.length; i++) {
+        if (arr1[i] == arr2[i])
+            res += 1
+    }
+    return res == arr1.length
+
+}
 function isset(cards) {
     console.log(cards)
+    if (equalArray(cards[0], cards[1]))
+        return false
     
-    card1 = (cards[0])
-    //  console.log(card1)
-    card2 = (cards[1])
-    card3 = (cards[2])
+    // card1 = (cards[0])
+    // //  console.log(card1)
+    // card2 = (cards[1])
+    // card3 = (cards[2])
     // if (objectEquals(card1,card2))
     //     return false
     ans=0
@@ -188,7 +204,9 @@ function isset(cards) {
         if (reduce(function(a,b){return a + b},0,testarray)%3 == 0)
             ans +=1
     }
+    console.log(cards)
     return ans == 4
+    //return true
     
     // if ((card1['att1'] + card2['att1'] + card3['att1']) % 3 ==0)
     //     ans += 1
@@ -219,12 +237,12 @@ function dealOne(parent) {
 }
 
 function removeDeal(cards) {
-    console.log(cards)
+    console.log('cards  ', cards)
     setcards = []
     for (i=0; i<3; i++)
         //arr.push(cards[i]['att0']*1+cards[i]['att1']*3+cards[i]['att2']*9+cards[i]['att3']*27)
         setcards.push(convertCardBack(cards[i]))
-        console.log(setcards)
+        console.log('setcards array ', setcards)
     console.log(setcards)
     for (j=0; j<3; j++)
         //console.log($(arr[j]))
@@ -232,11 +250,12 @@ function removeDeal(cards) {
         //console.log(par)
         //console.log(j)
         //console.log(setcards[j])
-        //console.log($(setcards[j]))
+        console.log($(setcards[j]))
         //par.removeChild(document.getElementById(setcards[j]))
         //dealOne($(setcards[j]).parentNode)
-        $(setcards[j]).parentNode.removeChild($(setcards[j]))
-        //removeElement($(arr[i]))   //why the fuck doesn't the loop work for dealone
+        $(setcards[j]).remove()
+        // $(setcards[j]).parentNode.removeChild($(setcards[j]))
+        //removeElement($(setcards[i]))   //why the fuck doesn't the loop work for dealone
         //dealOne(parent)
 
         
