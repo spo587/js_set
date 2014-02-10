@@ -90,7 +90,7 @@ function domCard(cardnum) {
     return dom('IMG', {src: cardsrc, id: cardnum, border: 5}) //click: printnum()}) //adding click to the properties just executes the function without click...wtf?
 }
 
-var arr = range(81) //can we do this better?
+var allCards = range(81) //can we do this better?
 
 function dealtwelve() {
     
@@ -99,7 +99,7 @@ function dealtwelve() {
         document.body.appendChild(newp)
         for (var i=0; i<4; i++) {
             
-            randNum = randomElement(arr)
+            randNum = randomElement(allCards)
             var card = domCard(randNum);
             newp.appendChild(card);
             console.log(card.id)
@@ -165,8 +165,8 @@ function convertCard(cardNum) {
     att2 = Math.floor((cardNum - att3*27) / 9);
     att1 = Math.floor((cardNum - 27*att3 - 9*att2) / 3);
     att0 = Math.floor(cardNum - 27*att3 - 9*att2 - 3*att1);
-    //return [att0, att1, att2, att3]
-    return {'att0': att0, 'att1': att1, 'att2': att2, 'att3':att3}
+    return [att0, att1, att2, att3]
+    //return {'att0': att0, 'att1': att1, 'att2': att2, 'att3':att3}
 }
 
 
@@ -178,27 +178,27 @@ function isset(cards) {
     //  console.log(card1)
     card2 = (cards[1])
     card3 = (cards[2])
-    if (objectEquals(card1,card2))
-        return false
+    // if (objectEquals(card1,card2))
+    //     return false
     ans=0
-    // for (j=0; j<4; j++) {
-    //     ans = 0
-    //     testarray = []
-    //     forEach(cards, function(card) {testarray.push(card[j])})
-    //     if (reduce(function(a,b){return a + b},0,testarray)%3 == 0)
-    //         ans +=1
-    // }
-    // return ans == 4
+    for (j=0; j<4; j++) {
+        testarray = []
+        forEach(cards, function(card) {testarray.push(card[j])})
+        console.log(testarray)
+        if (reduce(function(a,b){return a + b},0,testarray)%3 == 0)
+            ans +=1
+    }
+    return ans == 4
     
-    if ((card1['att1'] + card2['att1'] + card3['att1']) % 3 ==0)
-        ans += 1
-    if ((card1['att2'] + card2['att2'] + card3['att2']) % 3 ==0)
-        ans += 1
-    if ((card1['att3'] + card2['att3'] + card3['att3']) % 3 ==0)
-        ans += 1
-    if ((card1['att0'] + card2['att0'] + card3['att0']) % 3 ==0)
-        ans += 1
-    return (ans == 4)
+    // if ((card1['att1'] + card2['att1'] + card3['att1']) % 3 ==0)
+    //     ans += 1
+    // if ((card1['att2'] + card2['att2'] + card3['att2']) % 3 ==0)
+    //     ans += 1
+    // if ((card1['att3'] + card2['att3'] + card3['att3']) % 3 ==0)
+    //     ans += 1
+    // if ((card1['att0'] + card2['att0'] + card3['att0']) % 3 ==0)
+    //     ans += 1
+    // return (ans == 4)
     
 
 }
@@ -208,6 +208,9 @@ function removeElement(node) {
     node.parentNode.removeChild(node);
 }
 
+function convertCardBack(cardArray) {
+    return cardArray[0]*1 + cardArray[1]*3 + cardArray[2]*9 + cardArray[3]*27
+}
 
 function dealOne(parent) {
     console.log(arr)
@@ -217,21 +220,22 @@ function dealOne(parent) {
 
 function removeDeal(cards) {
     console.log(cards)
-    arr = []
+    setcards = []
     for (i=0; i<3; i++)
-        arr.push(cards[i]['att0']*1+cards[i]['att1']*3+cards[i]['att2']*9+cards[i]['att3']*27)
-        console.log(arr)
-    console.log(arr)
+        //arr.push(cards[i]['att0']*1+cards[i]['att1']*3+cards[i]['att2']*9+cards[i]['att3']*27)
+        setcards.push(convertCardBack(cards[i]))
+        console.log(setcards)
+    console.log(setcards)
     for (j=0; j<3; j++)
         //console.log($(arr[j]))
-        //var par = document.getElementById(arr[j]).parentNode //WHAT THE FUCK???? WHY DOESN'T THIS WORK??
+        var par = document.getElementById(setcards[j]).parentNode //WHAT THE FUCK???? WHY DOESN'T THIS WORK??
         //console.log(par)
         //console.log(j)
         //console.log(arr[j])
         //console.log($(arr[j]))
         //par.removeChild(document.getElementById(arr[j]))
         //dealOne($(arr[j]).parentNode)
-        $(arr[j]).parentNode.removeChild($(arr[j]))
+        $(setcards[j]).parentNode.removeChild($(setcards[j]))
         //removeElement($(arr[i]))   //why the fuck doesn't the loop work for dealone
         //dealOne(parent)
 
