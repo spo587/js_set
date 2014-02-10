@@ -102,8 +102,8 @@ function dealtwelve() {
             randNum = randomElement(allCards)
             var card = domCard(randNum);
             newp.appendChild(card);
-            console.log(card.id)
-            arr.splice(arr.indexOf(randNum),1)
+            //console.log(card.id)
+            allCards.splice(allCards.indexOf(randNum),1)
         
         }
 
@@ -256,6 +256,8 @@ function dealOne(parent) {
     parent.appendChild(newCard)
     console.log(newCard)
     addEventListeners([(newCard.id)])
+    allCards.splice(allCards.indexOf(randNum),1)
+
 
     //addEventListeners()
 }
