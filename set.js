@@ -1,30 +1,9 @@
-function objectEquals(obj1, obj2) {
-    for (var i in obj1) {
-        if (obj1.hasOwnProperty(i)) {
-            if (!obj2.hasOwnProperty(i)) return false;
-            if (obj1[i] != obj2[i]) return false;
-        }
-    }
-    for (var i in obj2) {
-        if (obj2.hasOwnProperty(i)) {
-            if (!obj1.hasOwnProperty(i)) return false;
-            if (obj1[i] != obj2[i]) return false;
-        }
-    }
-    return true;
-}
+
 
 function $(id) {
     return document.getElementById(id)
 }
 
-function reduce(combine,base,arr) {
-    forEach(arr,function(element) {
-        var base = combine(base,element)
-    })
-    return base
-
-}
 
 function forEachIn(object, func) {
     for (var property in object) {
@@ -38,11 +17,6 @@ function forEach(arr, func) {
         func(arr[i])
 }
 
-function randomElement(array) {
-  if (array.length == 0)
-    throw new Error("The array is empty.");
-  return array[Math.floor(Math.random() * array.length)];
-}
 
 function range(end) {
     var arr = []
@@ -161,7 +135,12 @@ function addEventListeners(cards) {
 }
 
     
-
+function reduce(combine, base, array) {
+    forEach(array, function(element) {
+        base = combine(base, element)
+    })
+    return base
+}
 
 
 function threeClicks(cardsClicked) {
@@ -185,13 +164,6 @@ function threeClicks(cardsClicked) {
 
     }
 }
-
-    // console.log(result)
-    // if (result.length == 3) {
-    //     var setty = isset(result)
-    //     result = []
-    //     return setty
-    // }
 
 
 
@@ -220,12 +192,7 @@ function isset(cards) {
     if (equalArray(cards[0], cards[1]))
         return false
     
-    // card1 = (cards[0])
-    // //  console.log(card1)
-    // card2 = (cards[1])
-    // card3 = (cards[2])
-    // if (objectEquals(card1,card2))
-    //     return false
+
     ans=0
     for (var j=0; j<4; j++) {
         testarray = []
@@ -236,17 +203,7 @@ function isset(cards) {
     }
     //console.log(cards)
     return ans == 4
-    //return true
-    
-    // if ((card1['att1'] + card2['att1'] + card3['att1']) % 3 ==0)
-    //     ans += 1
-    // if ((card1['att2'] + card2['att2'] + card3['att2']) % 3 ==0)
-    //     ans += 1
-    // if ((card1['att3'] + card2['att3'] + card3['att3']) % 3 ==0)
-    //     ans += 1
-    // if ((card1['att0'] + card2['att0'] + card3['att0']) % 3 ==0)
-    //     ans += 1
-    // return (ans == 4)
+
     
 
 }
@@ -276,9 +233,6 @@ function dealThree() {
 }
 
 
-    
-
-
 function dealOne(parent) {
     //console.log(allCards)
     var randNum = allCards.pop()
@@ -289,6 +243,44 @@ function dealOne(parent) {
 
 
     //addEventListeners()
+}
+
+function realign() {
+    var pars = document.getElementsByTagName('P')
+    console.log(pars)
+    var longlines = 0
+    for (var i=0; i<3; i++) {
+        if (pars[i].childNodes.length < 4) {
+            var min = pars[i].childNodes.length
+            var shortline = i
+        }
+        else if (pars[i].childNodes.length > 4) {
+            var longline = i
+            longlines += 1
+        }
+    }
+    console.log(longlines)
+    console.log(longline)
+    console.log(shortline)
+    if (longlines == 1) {
+        cardToMove = pars[longline].lastChild
+        pars[shortline].appendChild(cardToMove)
+    }
+    else if (longlines == 2) {
+        var longline1;
+        var longline2;
+        (shortline == 0) ? longline1 = 1 : longline1 = 0;
+        (shortline != 2) ? longline2 = 2 : longline2 = 1;
+        console.log(longline1);
+        console.log(longline2);
+        var cardtoMove1 = pars[longline1].lastChild;
+        var cardtoMove2 = pars[longline2].lastChild;
+        pars[shortline].appendChild(cardtoMove1);
+        pars[shortline].appendChild(cardtoMove2);
+     
+    }
+
+
 }
 
 function removeDeal(cards) {
@@ -302,20 +294,14 @@ function removeDeal(cards) {
     //console.log(setcards)
     for (var j=0; j<3; j++) {
         var par = document.getElementById(setcards[j]).parentNode //WHAT THE FUCK???? WHY DOESN'T THIS WORK??
-        //console.log(par)
-        //console.log(j)
-        //console.log(setcards[j])
+ 
         par.removeChild(document.getElementById(setcards[j]))
-        //dealOne($(setcards[j]).parentNode)
-        //$(setcards[j]).remove()
-        // $(setcards[j]).parentNode.removeChild($(setcards[j]))
-        //removeElement($(setcards[i]))   //why the fuck doesn't the loop work for dealone
+
         var imgs = document.getElementsByTagName('IMG')
         if (imgs.length < 12)
             dealOne(par)
-
-        }
-        
+        } 
+    realign()      
 }
 
 function startgame() {
@@ -324,8 +310,3 @@ function startgame() {
 }
 
 
-
-// function dealcard() {
-//     //take a random number and turn it into an img tag to pass to html
-
-// }
