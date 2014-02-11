@@ -20,7 +20,7 @@ function $(id) {
 
 function reduce(combine,base,arr) {
     forEach(arr,function(element) {
-        base = combine(base,element)
+        var base = combine(base,element)
     })
     return base
 
@@ -45,7 +45,7 @@ function randomElement(array) {
 }
 
 function range(end) {
-    arr = []
+    var arr = []
     for (var i=0; i<end; i++)
         arr.push(i)
     return arr
@@ -92,6 +92,18 @@ function domCard(cardnum) {
 
 var allCards = range(81) //can we do this better?
 
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return array;
+}
+
+shuffleArray(allCards)
+
 function dealtwelve() {
     
     for (var j=0; j<3; j++) {
@@ -99,11 +111,10 @@ function dealtwelve() {
         document.body.appendChild(newp)
         for (var i=0; i<4; i++) {
             
-            randNum = randomElement(allCards)
+            var randNum = allCards.pop()
             var card = domCard(randNum);
             newp.appendChild(card);
             //console.log(card.id)
-            allCards.splice(allCards.indexOf(randNum),1)
         
         }
 
@@ -126,7 +137,7 @@ var result = []
 
 function addEventListeners(cards) {
     if (cards == undefined) 
-        cards = cardnumarray()
+        var cards = cardnumarray()
 
     else
         console.log(cards)
@@ -159,10 +170,10 @@ function threeClicks(cardsClicked) {
             // if (result.length == 3) {
         console.log(cardsClicked)
         //removeDeal(result)
-        isitaset = isset(cardsClicked)
+        var isitaset = isset(cardsClicked)
         console.log(isitaset);
         //for all img in doc.body: set border = black
-        imgs = document.body.getElementsByTagName('IMG')
+        var imgs = document.body.getElementsByTagName('IMG')
         forEach(imgs,function(img){img.style.borderColor = 'black'})
         if (!isitaset)   
             cardsClicked = [];
@@ -196,7 +207,7 @@ function convertCard(cardNum) {
 
 
 function equalArray(arr1,arr2) {
-    res = 0
+    var res = 0
     for (i=0; i<arr1.length; i++) {
         if (arr1[i] == arr2[i])
             res += 1
@@ -249,14 +260,32 @@ function convertCardBack(cardArray) {
     return cardArray[0]*1 + cardArray[1]*3 + cardArray[2]*9 + cardArray[3]*27
 }
 
+function dealThree() {
+    console.log(allCards)
+    for (var i=0; i<3; i++) {
+
+        var randNum = allCards.pop();
+        console.log(allCards)
+        var newCard = domCard(randNum);
+        
+        
+        document.body.childNodes[i+7].appendChild(newCard)
+        addEventListeners([(newCard.id)])
+        console.log(allCards)
+    }
+}
+
+
+    
+
+
 function dealOne(parent) {
     //console.log(allCards)
-    randNum = randomElement(allCards)
-    newCard = domCard(randNum)
+    var randNum = allCards.pop()
+    var newCard = domCard(randNum)
     parent.appendChild(newCard)
     console.log(newCard)
     addEventListeners([(newCard.id)])
-    allCards.splice(allCards.indexOf(randNum),1)
 
 
     //addEventListeners()
@@ -264,7 +293,7 @@ function dealOne(parent) {
 
 function removeDeal(cards) {
     //console.log('cards  ', cards)
-    setcards = []
+    var setcards = []
     for (var i=0; i<3; i++) {
         //arr.push(cards[i]['att0']*1+cards[i]['att1']*3+cards[i]['att2']*9+cards[i]['att3']*27)
         setcards.push(convertCardBack(cards[i]))
@@ -281,7 +310,9 @@ function removeDeal(cards) {
         //$(setcards[j]).remove()
         // $(setcards[j]).parentNode.removeChild($(setcards[j]))
         //removeElement($(setcards[i]))   //why the fuck doesn't the loop work for dealone
-        dealOne(par)
+        var imgs = document.getElementsByTagName('IMG')
+        if (imgs.length < 12)
+            dealOne(par)
 
         }
         
