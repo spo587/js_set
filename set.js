@@ -59,6 +59,8 @@ function dom(name, attributes) {
 
 
 
+
+
 function domCard(cardnum) {
     var cardsrc = 'cards/' + String(cardnum) + '.JPG'
     return dom('IMG', {src: cardsrc, id: cardnum, border: 5}) //click: printnum()}) //adding click to the properties just executes the function without click...wtf?
@@ -107,6 +109,65 @@ function cardnumarray() {
     return cardnums
 }
 
+function cardnumarray_numbers() {
+    //same as above but trying to use actual numbers
+    var cardnums = []
+    var elements = document.body.getElementsByTagName('IMG')
+    for (var i=0; i<elements.length; i++)
+        cardnums.push(Number(elements[i].id))
+    //  console.log(cardnums)
+    return cardnums
+
+}
+
+function three_cards_a_set(three_indices) {
+    //three_indices some sort of object of length 3
+    var cards = cardnumarray_numbers()
+    var testarr = []
+    for (var i = 0; i<3; i++)
+        testarr.push(convertCard(cards[three_indices[i]]))
+    return isset(testarr)
+
+}
+
+function generate_all_three_card_indices(){
+    var cards = cardnumarray_numbers()
+    var num = cards.length
+    var all_indices = []
+        for (var i = 0; i<num-2; i++) {
+            for (var j = i+1; j< num-1; j++){
+                for (var k=j+1; k<num; k++) {
+                    all_indices.push([i,j,k])
+                }
+            }
+        }
+    return all_indices
+}
+
+function isthereanyset() {
+    //generates one hint now because of the early return statement
+    var ret = 0
+    var all_indices = generate_all_three_card_indices()
+    //for (var i = 0; i<array_of_all_three_index_triples.length; i++) {
+    for (var i = 0; i<all_indices.length; i++) {
+        if (three_cards_a_set(all_indices[i])) {
+            console.log(all_indices[i])
+            hintCardPosition = all_indices[i][0]
+            console.log(hintCardPosition)
+            hintCardNum = cardnumarray()[hintCardPosition]
+            console.log(hintCardNum)
+            hintcard = domCard(hintCardNum)
+            document.body.appendChild(hintcard)
+
+            return true
+
+        }
+    }
+    dealThree()
+}
+
+//now need to generate all possible three-index combos
+
 var result = []
 
 function addEventListeners(cards) {
@@ -150,7 +211,7 @@ function threeClicks(cardsClicked) {
         console.log(cardsClicked)
         //removeDeal(result)
         var isitaset = isset(cardsClicked)
-        console.log(isitaset);
+        console.log(isitaset); 
         //for all img in doc.body: set border = black
         var imgs = document.body.getElementsByTagName('IMG')
         forEach(imgs,function(img){img.style.borderColor = 'black'})
@@ -306,6 +367,8 @@ function removeDeal(cards) {
 
 function startgame() {
     dealtwelve()
+    //var hint = dom('BUTTON',{onclick: isthereanyset()},'click here for set hint')
+    //document.body.appendChild(hint)
     //console.log(document.getElementsByTagName('IMG'))
 }
 
