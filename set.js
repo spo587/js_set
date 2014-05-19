@@ -107,8 +107,9 @@ function dealtwelve() {
         }
 
     }
-    checkDeadboardAndDeal()
+    
     addEventListeners()
+    checkDeadboardAndDeal()
 }
 
 function checkDeadboardAndDeal() {
@@ -201,6 +202,8 @@ function isthereanyset() {
     //dealThree()
 }
 
+var numHints = 0;
+
 function deadBoard() {
     if (isthereanyset()) {
         var indices = isthereanyset()
@@ -222,24 +225,21 @@ function deadBoard() {
             secondDiv.appendChild(hintcard);
             alert('you fool, it\'s not a deadboard! here\'s your hint!');
         }
+        numHints += 1;
+        $('numHints').innerHTML = 'Number of hints used: ' + numHints;
              
     }
     else dealThree()
 }
 
-// function deadBoard_alternate() {
-//     if (!isthereanyset()) {
-//         dealThree()
-//     }
-// }
 
 //now need to generate all possible three-index combos
 
-var result = []
-console.log(result)
+var clicked = []
+console.log(clicked)
 
 function addEventListeners(cards) {
-    console.log(result)
+    console.log(clicked)
 
     if (cards == undefined) 
         var cards = cardnumarray()
@@ -252,20 +252,24 @@ function addEventListeners(cards) {
         $(num).addEventListener('click',function(click){
             var cardnum = Number(click.target.id);
             console.log(cardnum);
-            if (cardnum == convertCardBack(result[0]) && result.length == 1) {
-                console.log('successfully setting result to empty??');
-                result = [];
-                console.log(result)
+            if (cardnum == convertCardBack(clicked[0])) {
+                console.log('successfully setting clicked to empty??');
+                clicked.shift();
+                console.log(clicked)
             }
-            if (cardnum != result[0] && cardnum != result[1])
-                result.push(convertCard(cardnum));
+            else if (cardnum == convertCardBack(clicked[1])) {
+                clicked.pop()
+                console.log(clicked)
+            }
+            else if (cardnum != clicked[0] && cardnum != clicked[1])
+                clicked.push(convertCard(cardnum));
             if (!click.target.style.borderColor || click.target.style.borderColor == 'black')
                 click.target.style.borderColor = 'green';
             else
                 click.target.style.borderColor = 'black'
-            if (result.length == 3) {
-                threeClicks(result);
-                result = [];
+            if (clicked.length == 3) {
+                threeClicks(clicked);
+                clicked = [];
             }
         });
     }
@@ -447,7 +451,7 @@ function removeDeal(cards) {
 
         var firstDiv = $('div1')
         var imgs = firstDiv.getElementsByTagName('IMG')
-        if (imgs.length < 9 && allCards.length > 0)
+        if (imgs.length < 12 && allCards.length > 0)
             dealOne(par)
         } 
     realign()
@@ -457,10 +461,8 @@ function removeDeal(cards) {
 }
 
 function startgame() {
-    dealNine()
-    //var hint = dom('BUTTON',{onclick: isthereanyset()},'click here for set hint')
-    //document.body.appendChild(hint)
-    //console.log(document.getElementsByTagName('IMG'))
+    dealtwelve()
+    
 }
 
 
